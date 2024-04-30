@@ -1,0 +1,178 @@
+#pragma version =0.4.3;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "tact_Mem.headers.fc";
+#include "tact_Mem.stdlib.fc";
+#include "tact_Mem.constants.fc";
+#include "tact_Mem.storage.fc";
+
+;;
+;; Contract Mem functions
+;;
+
+(int, slice, int) $Mem$_contract_init(int $id) impure inline_ref {
+    var (($self'id, $self'memWalletAddress, $self'addressTaken)) = (null(), null(), false);
+    $self'id = $id;
+    $self'memWalletAddress = __gen_slice_address_61ab4641fa30d9310391025086eec65d200d79268e1b7cd402565e01ba64be3c();
+    return ($self'id, $self'memWalletAddress, $self'addressTaken);
+}
+
+((int, slice, int), int) $Mem$_fun_id((int, slice, int) $self) impure inline_ref {
+    var (($self'id, $self'memWalletAddress, $self'addressTaken)) = $self;
+    return (($self'id, $self'memWalletAddress, $self'addressTaken), $self'id);
+}
+
+((int, slice, int), slice) $Mem$_fun_memWalletAddress((int, slice, int) $self) impure inline_ref {
+    var (($self'id, $self'memWalletAddress, $self'addressTaken)) = $self;
+    return (($self'id, $self'memWalletAddress, $self'addressTaken), $self'memWalletAddress);
+}
+
+((int, slice, int), int) $Mem$_fun_addressTaken((int, slice, int) $self) impure inline_ref {
+    var (($self'id, $self'memWalletAddress, $self'addressTaken)) = $self;
+    return (($self'id, $self'memWalletAddress, $self'addressTaken), $self'addressTaken);
+}
+
+;;
+;; Receivers of a Contract Mem
+;;
+
+(((int, slice, int)), ()) $Mem$_internal_binary_SetAddress((int, slice, int) $self, (slice) $msg) impure inline {
+    var ($self'id, $self'memWalletAddress, $self'addressTaken) = $self;
+    var ($msg'newAddres) = $msg;
+    $self'memWalletAddress = $msg'newAddres;
+    $self'addressTaken = true;
+    return (($self'id, $self'memWalletAddress, $self'addressTaken), ());
+}
+
+(((int, slice, int)), ()) $Mem$_internal_binary_ProvideWalletAddress((int, slice, int) $self, (int, slice, int) $msg) impure inline {
+    var ($self'id, $self'memWalletAddress, $self'addressTaken) = $self;
+    var ($msg'query_id, $msg'owner_address, $msg'include_address) = $msg;
+    $self'memWalletAddress = $msg'owner_address;
+    $self'addressTaken = true;
+    return (($self'id, $self'memWalletAddress, $self'addressTaken), ());
+}
+
+(((int, slice, int)), ()) $Mem$_internal_binary_Bomj((int, slice, int) $self, (int) $msg) impure inline {
+    var ($self'id, $self'memWalletAddress, $self'addressTaken) = $self;
+    var ($msg'int) = $msg;
+    $global_send($SendParameters$_constructor_to_body_value_mode($self'memWalletAddress, $Transfer$_store_cell($Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload(1, 2, __tact_context_get_sender(), null(), $self'memWalletAddress, 10000000, $global_emptySlice())), 20000000, 2));
+    return (($self'id, $self'memWalletAddress, $self'addressTaken), ());
+}
+
+(((int, slice, int)), ()) $Mem$_internal_binary_Deploy((int, slice, int) $self, (int) $deploy) impure inline {
+    var ($self'id, $self'memWalletAddress, $self'addressTaken) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'id, $self'memWalletAddress, $self'addressTaken)~$Mem$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'id, $self'memWalletAddress, $self'addressTaken), ());
+}
+
+;;
+;; Get methods of a Contract Mem
+;;
+
+_ %id() method_id(105872) {
+    var self = $Mem$_contract_load();
+    var res = self~$Mem$_fun_id();
+    return res;
+}
+
+_ %memWalletAddress() method_id(97579) {
+    var self = $Mem$_contract_load();
+    var res = self~$Mem$_fun_memWalletAddress();
+    return res;
+}
+
+_ %addressTaken() method_id(79621) {
+    var self = $Mem$_contract_load();
+    var res = self~$Mem$_fun_addressTaken();
+    return res;
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://Qmc7FnH4Y1baCmmoq4hQVExZJmy8pNsmBFjFrFoo1HGDkf";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract Mem
+;;
+
+((int, slice, int), int) $Mem$_contract_router_internal((int, slice, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive SetAddress message
+    if (op == 3993576122) {
+        var msg = in_msg~$SetAddress$_load();
+        self~$Mem$_internal_binary_SetAddress(msg);
+        return (self, true);
+    }
+    
+    ;; Receive ProvideWalletAddress message
+    if (op == 745978227) {
+        var msg = in_msg~$ProvideWalletAddress$_load();
+        self~$Mem$_internal_binary_ProvideWalletAddress(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Bomj message
+    if (op == 4038680212) {
+        var msg = in_msg~$Bomj$_load();
+        self~$Mem$_internal_binary_Bomj(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$Mem$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $Mem$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$Mem$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $Mem$_contract_store(self);
+}
