@@ -1,9 +1,9 @@
 # TACT Compilation Report
 Contract: Mem
-BOC Size: 1081 bytes
+BOC Size: 825 bytes
 
 # Types
-Total Types: 17
+Total Types: 16
 
 ## StateInit
 TLB: `_ code:^cell data:^cell = StateInit`
@@ -30,7 +30,7 @@ TLB: `factory_deploy#6d0ff13b queryId:uint64 cashback:address = FactoryDeploy`
 Signature: `FactoryDeploy{queryId:uint64,cashback:address}`
 
 ## Transfer
-TLB: `transfer#0f817ea5 query_id:uint64 amount:coins destination:address response_destination:address custom_payload:Maybe ^cell forward_ton_amount:coins forward_payload:remainder<slice> = Transfer`
+TLB: `transfer#0f8a7ea5 query_id:uint64 amount:coins destination:address response_destination:address custom_payload:Maybe ^cell forward_ton_amount:coins forward_payload:remainder<slice> = Transfer`
 Signature: `Transfer{query_id:uint64,amount:coins,destination:address,response_destination:address,custom_payload:Maybe ^cell,forward_ton_amount:coins,forward_payload:remainder<slice>}`
 
 ## InternalTransfer
@@ -65,22 +65,14 @@ Signature: `ProvideWalletAddress{query_id:uint64,owner_address:address,include_a
 TLB: `take_wallet_address#d1735400 query_id:uint64 wallet_address:address owner_address:Maybe address = TakeWalletAddress`
 Signature: `TakeWalletAddress{query_id:uint64,wallet_address:address,owner_address:Maybe address}`
 
-## SetAddress
-TLB: `set_address#ee0922ba newAddres:address = SetAddress`
-Signature: `SetAddress{newAddres:address}`
-
 ## Bomj
-TLB: `bomj#f0b95e94 int:int32 = Bomj`
-Signature: `Bomj{int:int32}`
+TLB: `bomj#6de123ea MyMemAddress:address bomj_query_id:int32 bomj_amount:coins = Bomj`
+Signature: `Bomj{MyMemAddress:address,bomj_query_id:int32,bomj_amount:coins}`
 
 # Get Methods
-Total Get Methods: 3
+Total Get Methods: 1
 
 ## id
-
-## memWalletAddress
-
-## addressTaken
 
 # Error Codes
 2: Stack undeflow

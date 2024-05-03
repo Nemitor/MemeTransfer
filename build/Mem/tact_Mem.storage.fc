@@ -57,13 +57,13 @@ cell $DeployOk$_store_cell((int) v) inline {
 
 ;;
 ;; Type: Transfer
-;; Header: 0x0f817ea5
-;; TLB: transfer#0f817ea5 query_id:uint64 amount:coins destination:address response_destination:address custom_payload:Maybe ^cell forward_ton_amount:coins forward_payload:remainder<slice> = Transfer
+;; Header: 0x0f8a7ea5
+;; TLB: transfer#0f8a7ea5 query_id:uint64 amount:coins destination:address response_destination:address custom_payload:Maybe ^cell forward_ton_amount:coins forward_payload:remainder<slice> = Transfer
 ;;
 
 builder $Transfer$_store(builder build_0, (int, int, slice, slice, cell, int, slice) v) inline_ref {
     var (v'query_id, v'amount, v'destination, v'response_destination, v'custom_payload, v'forward_ton_amount, v'forward_payload) = v;
-    build_0 = store_uint(build_0, 260144805, 32);
+    build_0 = store_uint(build_0, 260734629, 32);
     build_0 = build_0.store_uint(v'query_id, 64);
     build_0 = build_0.store_coins(v'amount);
     build_0 = __tact_store_address(build_0, v'destination);
@@ -83,60 +83,32 @@ cell $Transfer$_store_cell((int, int, slice, slice, cell, int, slice) v) inline 
 }
 
 ;;
-;; Type: ProvideWalletAddress
-;; Header: 0x2c76b973
-;; TLB: provide_wallet_address#2c76b973 query_id:uint64 owner_address:address include_address:bool = ProvideWalletAddress
-;;
-
-(slice, ((int, slice, int))) $ProvideWalletAddress$_load(slice sc_0) inline {
-    throw_unless(129, sc_0~load_uint(32) == 745978227);
-    var v'query_id = sc_0~load_uint(64);
-    var v'owner_address = sc_0~__tact_load_address();
-    var v'include_address = sc_0~load_int(1);
-    return (sc_0, (v'query_id, v'owner_address, v'include_address));
-}
-
-;;
-;; Type: SetAddress
-;; Header: 0xee0922ba
-;; TLB: set_address#ee0922ba newAddres:address = SetAddress
-;;
-
-(slice, ((slice))) $SetAddress$_load(slice sc_0) inline {
-    throw_unless(129, sc_0~load_uint(32) == 3993576122);
-    var v'newAddres = sc_0~__tact_load_address();
-    return (sc_0, (v'newAddres));
-}
-
-;;
 ;; Type: Bomj
-;; Header: 0xf0b95e94
-;; TLB: bomj#f0b95e94 int:int32 = Bomj
+;; Header: 0x6de123ea
+;; TLB: bomj#6de123ea MyMemAddress:address bomj_query_id:int32 bomj_amount:coins = Bomj
 ;;
 
-(slice, ((int))) $Bomj$_load(slice sc_0) inline {
-    throw_unless(129, sc_0~load_uint(32) == 4038680212);
-    var v'int = sc_0~load_int(32);
-    return (sc_0, (v'int));
+(slice, ((slice, int, int))) $Bomj$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 1843471338);
+    var v'MyMemAddress = sc_0~__tact_load_address();
+    var v'bomj_query_id = sc_0~load_int(32);
+    var v'bomj_amount = sc_0~load_coins();
+    return (sc_0, (v'MyMemAddress, v'bomj_query_id, v'bomj_amount));
 }
 
 ;;
 ;; Type: Mem
 ;;
 
-builder $Mem$_store(builder build_0, (int, slice, int) v) inline {
-    var (v'id, v'memWalletAddress, v'addressTaken) = v;
+builder $Mem$_store(builder build_0, (int) v) inline {
+    var (v'id) = v;
     build_0 = build_0.store_uint(v'id, 32);
-    build_0 = __tact_store_address(build_0, v'memWalletAddress);
-    build_0 = build_0.store_int(v'addressTaken, 1);
     return build_0;
 }
 
-(slice, ((int, slice, int))) $Mem$_load(slice sc_0) inline {
+(slice, ((int))) $Mem$_load(slice sc_0) inline {
     var v'id = sc_0~load_uint(32);
-    var v'memWalletAddress = sc_0~__tact_load_address();
-    var v'addressTaken = sc_0~load_int(1);
-    return (sc_0, (v'id, v'memWalletAddress, v'addressTaken));
+    return (sc_0, (v'id));
 }
 
 (slice, ((int))) $Mem$init$_load(slice sc_0) inline {
@@ -144,7 +116,7 @@ builder $Mem$_store(builder build_0, (int, slice, int) v) inline {
     return (sc_0, (v'id));
 }
 
-(int, slice, int) $Mem$_contract_load() impure inline_ref {
+(int) $Mem$_contract_load() impure inline_ref {
     slice $sc = get_data().begin_parse();
     __tact_context_sys = $sc~load_ref();
     int $loaded = $sc~load_int(1);
@@ -159,7 +131,7 @@ builder $Mem$_store(builder build_0, (int, slice, int) v) inline {
     }
 }
 
-() $Mem$_contract_store((int, slice, int) v) impure inline {
+() $Mem$_contract_store((int) v) impure inline {
     builder b = begin_cell();
     b = b.store_ref(__tact_context_sys);
     b = b.store_int(true, 1);

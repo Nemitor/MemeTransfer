@@ -42,19 +42,6 @@ builder __tact_store_bool(builder b, int v) inline {
 
 forall X0, X1 -> (X0, X1) __tact_tuple_destroy_2(tuple v) asm "2 UNTUPLE";
 
-cell $global_emptyCell() impure inline {
-    return end_cell(begin_cell());
-}
-
-slice $Cell$_fun_asSlice(cell $self) impure inline {
-    var ($self) = $self;
-    return begin_parse($self);
-}
-
-slice $global_emptySlice() impure inline {
-    return $Cell$_fun_asSlice($global_emptyCell());
-}
-
 () $global_send((int, slice, int, int, cell, cell, cell) $params) impure inline_ref {
     var (($params'bounce, $params'to, $params'value, $params'mode, $params'body, $params'code, $params'data)) = $params;
     builder $b = begin_cell();
@@ -98,8 +85,13 @@ slice $global_emptySlice() impure inline {
     send_raw_message($c, $params'mode);
 }
 
-((int, slice, int), ()) $Mem$_fun_forward((int, slice, int) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref {
-    var (($self'id, $self'memWalletAddress, $self'addressTaken)) = $self;
+slice $Cell$_fun_asSlice(cell $self) impure inline {
+    var ($self) = $self;
+    return begin_parse($self);
+}
+
+((int), ()) $Mem$_fun_forward((int) $self, slice $to, cell $body, int $bounce, tuple $init) impure inline_ref {
+    var (($self'id)) = $self;
     var ($init) = $init;
     cell $code = null();
     cell $data = null();
@@ -115,15 +107,15 @@ slice $global_emptySlice() impure inline {
         if (($balanceBeforeMessage < 0)) {
             raw_reserve(0, 0);
             $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, (128 + 2), $body, $code, $data));
-            return (($self'id, $self'memWalletAddress, $self'addressTaken), ());
+            return (($self'id), ());
         }
     }
     $global_send($SendParameters$_constructor_bounce_to_value_mode_body_code_data($bounce, $to, 0, (64 + 2), $body, $code, $data));
-    return (($self'id, $self'memWalletAddress, $self'addressTaken), ());
+    return (($self'id), ());
 }
 
-((int, slice, int), ()) $Mem$_fun_notify((int, slice, int) $self, cell $body) impure inline {
-    var (($self'id, $self'memWalletAddress, $self'addressTaken)) = $self;
-    ($self'id, $self'memWalletAddress, $self'addressTaken)~$Mem$_fun_forward(__tact_context_get_sender(), $body, false, null());
-    return (($self'id, $self'memWalletAddress, $self'addressTaken), ());
+((int), ()) $Mem$_fun_notify((int) $self, cell $body) impure inline {
+    var (($self'id)) = $self;
+    ($self'id)~$Mem$_fun_forward(__tact_context_get_sender(), $body, false, null());
+    return (($self'id), ());
 }

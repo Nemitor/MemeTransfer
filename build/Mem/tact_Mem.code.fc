@@ -4,67 +4,39 @@
 
 #include "tact_Mem.headers.fc";
 #include "tact_Mem.stdlib.fc";
-#include "tact_Mem.constants.fc";
 #include "tact_Mem.storage.fc";
 
 ;;
 ;; Contract Mem functions
 ;;
 
-(int, slice, int) $Mem$_contract_init(int $id) impure inline_ref {
-    var (($self'id, $self'memWalletAddress, $self'addressTaken)) = (null(), null(), false);
+(int) $Mem$_contract_init(int $id) impure inline_ref {
+    var (($self'id)) = (null());
     $self'id = $id;
-    $self'memWalletAddress = __gen_slice_address_61ab4641fa30d9310391025086eec65d200d79268e1b7cd402565e01ba64be3c();
-    return ($self'id, $self'memWalletAddress, $self'addressTaken);
+    return ($self'id);
 }
 
-((int, slice, int), int) $Mem$_fun_id((int, slice, int) $self) impure inline_ref {
-    var (($self'id, $self'memWalletAddress, $self'addressTaken)) = $self;
-    return (($self'id, $self'memWalletAddress, $self'addressTaken), $self'id);
-}
-
-((int, slice, int), slice) $Mem$_fun_memWalletAddress((int, slice, int) $self) impure inline_ref {
-    var (($self'id, $self'memWalletAddress, $self'addressTaken)) = $self;
-    return (($self'id, $self'memWalletAddress, $self'addressTaken), $self'memWalletAddress);
-}
-
-((int, slice, int), int) $Mem$_fun_addressTaken((int, slice, int) $self) impure inline_ref {
-    var (($self'id, $self'memWalletAddress, $self'addressTaken)) = $self;
-    return (($self'id, $self'memWalletAddress, $self'addressTaken), $self'addressTaken);
+((int), int) $Mem$_fun_id((int) $self) impure inline_ref {
+    var (($self'id)) = $self;
+    return (($self'id), $self'id);
 }
 
 ;;
 ;; Receivers of a Contract Mem
 ;;
 
-(((int, slice, int)), ()) $Mem$_internal_binary_SetAddress((int, slice, int) $self, (slice) $msg) impure inline {
-    var ($self'id, $self'memWalletAddress, $self'addressTaken) = $self;
-    var ($msg'newAddres) = $msg;
-    $self'memWalletAddress = $msg'newAddres;
-    $self'addressTaken = true;
-    return (($self'id, $self'memWalletAddress, $self'addressTaken), ());
+(((int)), ()) $Mem$_internal_binary_Bomj((int) $self, (slice, int, int) $msg) impure inline {
+    var ($self'id) = $self;
+    var ($msg'MyMemAddress, $msg'bomj_query_id, $msg'bomj_amount) = $msg;
+    $global_send($SendParameters$_constructor_to_body_value_mode($msg'MyMemAddress, $Transfer$_store_cell($Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload($msg'bomj_query_id, $msg'bomj_amount, __tact_context_get_sender(), null(), $msg'MyMemAddress, 400000000, $Cell$_fun_asSlice(end_cell(store_uint(begin_cell(), 0, 1))))), 500000000, 2));
+    return (($self'id), ());
 }
 
-(((int, slice, int)), ()) $Mem$_internal_binary_ProvideWalletAddress((int, slice, int) $self, (int, slice, int) $msg) impure inline {
-    var ($self'id, $self'memWalletAddress, $self'addressTaken) = $self;
-    var ($msg'query_id, $msg'owner_address, $msg'include_address) = $msg;
-    $self'memWalletAddress = $msg'owner_address;
-    $self'addressTaken = true;
-    return (($self'id, $self'memWalletAddress, $self'addressTaken), ());
-}
-
-(((int, slice, int)), ()) $Mem$_internal_binary_Bomj((int, slice, int) $self, (int) $msg) impure inline {
-    var ($self'id, $self'memWalletAddress, $self'addressTaken) = $self;
-    var ($msg'int) = $msg;
-    $global_send($SendParameters$_constructor_to_body_value_mode($self'memWalletAddress, $Transfer$_store_cell($Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload(1, 2, __tact_context_get_sender(), null(), $self'memWalletAddress, 10000000, $global_emptySlice())), 20000000, 2));
-    return (($self'id, $self'memWalletAddress, $self'addressTaken), ());
-}
-
-(((int, slice, int)), ()) $Mem$_internal_binary_Deploy((int, slice, int) $self, (int) $deploy) impure inline {
-    var ($self'id, $self'memWalletAddress, $self'addressTaken) = $self;
+(((int)), ()) $Mem$_internal_binary_Deploy((int) $self, (int) $deploy) impure inline {
+    var ($self'id) = $self;
     var ($deploy'queryId) = $deploy;
-    ($self'id, $self'memWalletAddress, $self'addressTaken)~$Mem$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
-    return (($self'id, $self'memWalletAddress, $self'addressTaken), ());
+    ($self'id)~$Mem$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'id), ());
 }
 
 ;;
@@ -74,18 +46,6 @@
 _ %id() method_id(105872) {
     var self = $Mem$_contract_load();
     var res = self~$Mem$_fun_id();
-    return res;
-}
-
-_ %memWalletAddress() method_id(97579) {
-    var self = $Mem$_contract_load();
-    var res = self~$Mem$_fun_memWalletAddress();
-    return res;
-}
-
-_ %addressTaken() method_id(79621) {
-    var self = $Mem$_contract_load();
-    var res = self~$Mem$_fun_addressTaken();
     return res;
 }
 
@@ -99,7 +59,7 @@ _ supported_interfaces() method_id {
 }
 
 _ get_abi_ipfs() method_id {
-    return "ipfs://Qmc7FnH4Y1baCmmoq4hQVExZJmy8pNsmBFjFrFoo1HGDkf";
+    return "ipfs://Qmb2ACThVP8jN4cm8JquWm5Wgvuv16Q4K9n6zKskvwkwUt";
 }
 
 _ lazy_deployment_completed() method_id {
@@ -110,7 +70,7 @@ _ lazy_deployment_completed() method_id {
 ;; Routing of a Contract Mem
 ;;
 
-((int, slice, int), int) $Mem$_contract_router_internal((int, slice, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+((int), int) $Mem$_contract_router_internal((int) self, int msg_bounced, slice in_msg) impure inline_ref {
     ;; Handle bounced messages
     if (msg_bounced) {
         return (self, true);
@@ -123,22 +83,8 @@ _ lazy_deployment_completed() method_id {
     }
     
     
-    ;; Receive SetAddress message
-    if (op == 3993576122) {
-        var msg = in_msg~$SetAddress$_load();
-        self~$Mem$_internal_binary_SetAddress(msg);
-        return (self, true);
-    }
-    
-    ;; Receive ProvideWalletAddress message
-    if (op == 745978227) {
-        var msg = in_msg~$ProvideWalletAddress$_load();
-        self~$Mem$_internal_binary_ProvideWalletAddress(msg);
-        return (self, true);
-    }
-    
     ;; Receive Bomj message
-    if (op == 4038680212) {
+    if (op == 1843471338) {
         var msg = in_msg~$Bomj$_load();
         self~$Mem$_internal_binary_Bomj(msg);
         return (self, true);

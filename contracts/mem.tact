@@ -1,58 +1,38 @@
 import "@stdlib/deploy";
 import "./messages";
 
-message SetAddress{
-    newAddres: Address;
-}
-message Bomj{
-    int: Int as int32;
+
+message(0x6de123ea) Bomj{
+    MyMemAddress: Address;
+    bomj_query_id: Int as int32;
+    bomj_amount: Int as coins;
 }
 
 contract Mem with Deployable {
     id: Int as uint32;
-    memWalletAddress: Address;
-    addressTaken: Bool = false;
 
     init(id: Int) {
         self.id = id;
-        self.memWalletAddress = address("EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c");
-    }
-
-    receive(msg: SetAddress){
-        self.memWalletAddress = msg.newAddres;
-        self.addressTaken = true;
-    }
-
-    receive(msg: ProvideWalletAddress){
-        self.memWalletAddress = msg.owner_address;
-        self.addressTaken = true;
     }
 
     receive(msg: Bomj){
         send(SendParameters{
-            to: self.memWalletAddress,
+            to: msg.MyMemAddress,
             body: Transfer{
-                query_id:1, 
-                amount: 2, 
+                query_id: msg.bomj_query_id, 
+                amount: msg.bomj_amount, 
                 destination: sender(),
                 custom_payload: null,
-                response_destination: self.memWalletAddress,
-                forward_ton_amount: ton("0.01"),
-                forward_payload: emptySlice()
+                response_destination: msg.MyMemAddress,
+                forward_ton_amount: ton("0.4"),
+                forward_payload: beginCell().storeUint(0, 1).endCell().asSlice()
             }.toCell(),
-            value: ton("0.02"),
+            value: ton("0.5"),
             mode: SendIgnoreErrors
         });
     }
 
     get fun id(): Int {
         return self.id;
-    }
-
-    get fun memWalletAddress(): Address{
-        return self.memWalletAddress;
-    }
-    get fun addressTaken(): Bool{
-        return self.addressTaken;
     }
 }

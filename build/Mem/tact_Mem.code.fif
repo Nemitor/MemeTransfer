@@ -12,8 +12,6 @@ PROGRAM{
   DECLPROC $DeployOk$_store_cell
   DECLPROC $Transfer$_store
   DECLPROC $Transfer$_store_cell
-  DECLPROC $ProvideWalletAddress$_load
-  DECLPROC $SetAddress$_load
   DECLPROC $Bomj$_load
   DECLPROC $Mem$_store
   DECLPROC $Mem$_load
@@ -22,26 +20,18 @@ PROGRAM{
   DECLPROC $Mem$_contract_init
   DECLPROC $Mem$_contract_load
   DECLPROC $Mem$_contract_store
-  DECLPROC $global_emptyCell
-  DECLPROC $Cell$_fun_asSlice
-  DECLPROC $global_emptySlice
   DECLPROC $global_send
+  DECLPROC $Cell$_fun_asSlice
   DECLPROC $Mem$_fun_id
-  DECLPROC $Mem$_fun_memWalletAddress
-  DECLPROC $Mem$_fun_addressTaken
   DECLPROC $SendParameters$_constructor_bounce_to_value_mode_body_code_data
   DECLPROC $Mem$_fun_forward
   DECLPROC $Mem$_fun_notify
   DECLPROC $SendParameters$_constructor_to_body_value_mode
   DECLPROC $Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload
   DECLPROC $DeployOk$_constructor_queryId
-  DECLPROC $Mem$_internal_binary_SetAddress
-  DECLPROC $Mem$_internal_binary_ProvideWalletAddress
   DECLPROC $Mem$_internal_binary_Bomj
   DECLPROC $Mem$_internal_binary_Deploy
   105872 DECLMETHOD %id
-  97579 DECLMETHOD %memWalletAddress
-  79621 DECLMETHOD %addressTaken
   113617 DECLMETHOD supported_interfaces
   121275 DECLMETHOD get_abi_ipfs
   115390 DECLMETHOD lazy_deployment_completed
@@ -118,7 +108,7 @@ PROGRAM{
     ENDC
   }>
   $Transfer$_store PROCREF:<{
-    260144805 PUSHINT
+    260734629 PUSHINT
     s0 s8 XCHG2
     32 STU
     s1 s6 XCHG
@@ -153,48 +143,25 @@ PROGRAM{
     $Transfer$_store INLINECALLDICT
     ENDC
   }>
-  $ProvideWalletAddress$_load PROCINLINE:<{
-    32 LDU
-    SWAP
-    745978227 PUSHINT
-    EQUAL
-    129 THROWIFNOT
-    64 LDU
-    __tact_load_address INLINECALLDICT
-    SWAP
-    1 LDI
-    3 -ROLL
-  }>
-  $SetAddress$_load PROCINLINE:<{
-    32 LDU
-    SWAP
-    3993576122 PUSHINT
-    EQUAL
-    129 THROWIFNOT
-    __tact_load_address INLINECALLDICT
-  }>
   $Bomj$_load PROCINLINE:<{
     32 LDU
     SWAP
-    4038680212 PUSHINT
+    1843471338 PUSHINT
     EQUAL
     129 THROWIFNOT
-    32 LDI
+    __tact_load_address INLINECALLDICT
     SWAP
+    32 LDI
+    LDGRAMS
+    3 -ROLL
   }>
   $Mem$_store PROCINLINE:<{
-    s2 s3 XCHG2
-    32 STU
     SWAP
-    __tact_store_address INLINECALLDICT
-    1 STI
+    32 STU
   }>
   $Mem$_load PROCINLINE:<{
     32 LDU
-    __tact_load_address INLINECALLDICT
     SWAP
-    1 LDI
-    3 -ROLL
   }>
   $StateInit$_not_null PROCINLINE:<{
     DUP
@@ -208,9 +175,6 @@ PROGRAM{
     SWAP
   }>
   $Mem$_contract_init PROCREF:<{
-    FALSE
-    B{b5ee9c72410101010024000043800000000000000000000000000000000000000000000000000000000000000000104aec829d} B>boc <s PUSHSLICE
-    SWAP
   }>
   $Mem$_contract_load PROCREF:<{
     c4 PUSH
@@ -222,7 +186,7 @@ PROGRAM{
     SWAP
     IFJMP:<{
       $Mem$_load INLINECALLDICT
-      1 3 BLKDROP2
+      NIP
     }>
     MYADDR
     11 PLDU
@@ -242,21 +206,10 @@ PROGRAM{
     TRUE
     SWAP
     1 STI
-    3 -ROLL
+    SWAP
     $Mem$_store INLINECALLDICT
     ENDC
     c4 POP
-  }>
-  $global_emptyCell PROCINLINE:<{
-    NEWC
-    ENDC
-  }>
-  $Cell$_fun_asSlice PROCINLINE:<{
-    CTOS
-  }>
-  $global_emptySlice PROCINLINE:<{
-    $global_emptyCell INLINECALLDICT
-    $Cell$_fun_asSlice INLINECALLDICT
   }>
   $global_send PROCREF:<{
     NEWC
@@ -360,13 +313,10 @@ PROGRAM{
     SWAP
     SENDRAWMSG
   }>
+  $Cell$_fun_asSlice PROCINLINE:<{
+    CTOS
+  }>
   $Mem$_fun_id PROCREF:<{
-    s2 PUSH
-  }>
-  $Mem$_fun_memWalletAddress PROCREF:<{
-    OVER
-  }>
-  $Mem$_fun_addressTaken PROCREF:<{
     DUP
   }>
   $SendParameters$_constructor_bounce_to_value_mode_body_code_data PROCINLINE:<{
@@ -412,29 +362,21 @@ PROGRAM{
   }>
   $DeployOk$_constructor_queryId PROCINLINE:<{
   }>
-  $Mem$_internal_binary_SetAddress PROCINLINE:<{
-    2 1 BLKDROP2
-    TRUE
-  }>
-  $Mem$_internal_binary_ProvideWalletAddress PROCINLINE:<{
-    s1 s4 XCHG
-    4 BLKDROP
-    TRUE
-  }>
   $Mem$_internal_binary_Bomj PROCINLINE:<{
-    DROP
-    1 PUSHINT
-    2 PUSHINT
     __tact_context_get_sender INLINECALLDICT
     PUSHNULL
-    10000000 PUSHINT
-    $global_emptySlice INLINECALLDICT
-    s7 PUSH
+    400000000 PUSHINT
+    NEWC
+    0 PUSHINT
+    SWAP
+    1 STU
+    ENDC
+    $Cell$_fun_asSlice INLINECALLDICT
+    s6 PUSH
     -ROT
     $Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload INLINECALLDICT
     $Transfer$_store_cell INLINECALLDICT
-    s2 s(-1) PUXC
-    20000000 PUSHINT
+    500000000 PUSHINT
     2 PUSHINT
     $SendParameters$_constructor_to_body_value_mode INLINECALLDICT
     $global_send INLINECALLDICT
@@ -447,17 +389,7 @@ PROGRAM{
   %id PROC:<{
     $Mem$_contract_load INLINECALLDICT
     $Mem$_fun_id INLINECALLDICT
-    3 1 BLKDROP2
-  }>
-  %memWalletAddress PROC:<{
-    $Mem$_contract_load INLINECALLDICT
-    $Mem$_fun_memWalletAddress INLINECALLDICT
-    3 1 BLKDROP2
-  }>
-  %addressTaken PROC:<{
-    $Mem$_contract_load INLINECALLDICT
-    $Mem$_fun_addressTaken INLINECALLDICT
-    3 1 BLKDROP2
+    NIP
   }>
   supported_interfaces PROC:<{
     123515602279859691144772641439386770278 PUSHINT
@@ -466,7 +398,7 @@ PROGRAM{
     209474421377847335869795010607481022628 PUSHINT
   }>
   get_abi_ipfs PROC:<{
-    x{697066733a2f2f516d6337466e483459316261436d6d6f713468515645785a4a6d7938704e736d42466a4672466f6f314847446b66} PUSHSLICE
+    x{697066733a2f2f516d6232414354685650386a4e34636d384a7175576d355767767576313651344b396e367a4b736b76776b775574} PUSHSLICE
   }>
   lazy_deployment_completed PROC:<{
     c4 PUSH
@@ -490,32 +422,12 @@ PROGRAM{
       32 PLDU
     }>
     DUP
-    3993576122 PUSHINT
-    EQUAL
-    IFJMP:<{
-      DROP
-      $SetAddress$_load INLINECALLDICT
-      NIP
-      $Mem$_internal_binary_SetAddress INLINECALLDICT
-      TRUE
-    }>
-    DUP
-    745978227 PUSHINT
-    EQUAL
-    IFJMP:<{
-      DROP
-      $ProvideWalletAddress$_load INLINECALLDICT
-      1 3 BLKDROP2
-      $Mem$_internal_binary_ProvideWalletAddress INLINECALLDICT
-      TRUE
-    }>
-    DUP
-    4038680212 PUSHINT
+    1843471338 PUSHINT
     EQUAL
     IFJMP:<{
       DROP
       $Bomj$_load INLINECALLDICT
-      NIP
+      1 3 BLKDROP2
       $Mem$_internal_binary_Bomj INLINECALLDICT
       TRUE
     }>
@@ -549,7 +461,7 @@ PROGRAM{
     s0 s2 XCHG
     __tact_context_sender SETGLOB
     $Mem$_contract_load INLINECALLDICT
-    2 3 BLKSWAP
+    -ROT
     $Mem$_contract_router_internal INLINECALLDICT
     130 THROWIFNOT
     $Mem$_contract_store INLINECALLDICT
