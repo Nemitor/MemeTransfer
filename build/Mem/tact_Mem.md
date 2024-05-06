@@ -1,6 +1,6 @@
 # TACT Compilation Report
 Contract: Mem
-BOC Size: 825 bytes
+BOC Size: 1145 bytes
 
 # Types
 Total Types: 16
@@ -66,13 +66,15 @@ TLB: `take_wallet_address#d1735400 query_id:uint64 wallet_address:address owner_
 Signature: `TakeWalletAddress{query_id:uint64,wallet_address:address,owner_address:Maybe address}`
 
 ## Bomj
-TLB: `bomj#6de123ea MyMemAddress:address bomj_query_id:int32 bomj_amount:coins = Bomj`
-Signature: `Bomj{MyMemAddress:address,bomj_query_id:int32,bomj_amount:coins}`
+TLB: `bomj#6de123ea bomj_query_id:int32 bomj_amount:coins = Bomj`
+Signature: `Bomj{bomj_query_id:int32,bomj_amount:coins}`
 
 # Get Methods
-Total Get Methods: 1
+Total Get Methods: 2
 
 ## id
+
+## retAddres
 
 # Error Codes
 2: Stack undeflow

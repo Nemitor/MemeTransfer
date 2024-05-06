@@ -14,12 +14,12 @@
 ;; TLB: _ bounce:bool to:address value:int257 mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell = SendParameters
 ;;
 
-((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int bounce, slice to, int value, int mode, cell body, cell code, cell data) inline {
-    return (bounce, to, value, mode, body, code, data);
-}
-
 ((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_body_value_mode(slice to, cell body, int value, int mode) inline {
     return (true, to, value, mode, body, null(), null());
+}
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int bounce, slice to, int value, int mode, cell body, cell code, cell data) inline {
+    return (bounce, to, value, mode, body, code, data);
 }
 
 ;;
@@ -83,32 +83,70 @@ cell $Transfer$_store_cell((int, int, slice, slice, cell, int, slice) v) inline 
 }
 
 ;;
-;; Type: Bomj
-;; Header: 0x6de123ea
-;; TLB: bomj#6de123ea MyMemAddress:address bomj_query_id:int32 bomj_amount:coins = Bomj
+;; Type: ProvideWalletAddress
+;; Header: 0x2c76b973
+;; TLB: provide_wallet_address#2c76b973 query_id:uint64 owner_address:address include_address:bool = ProvideWalletAddress
 ;;
 
-(slice, ((slice, int, int))) $Bomj$_load(slice sc_0) inline {
+builder $ProvideWalletAddress$_store(builder build_0, (int, slice, int) v) inline {
+    var (v'query_id, v'owner_address, v'include_address) = v;
+    build_0 = store_uint(build_0, 745978227, 32);
+    build_0 = build_0.store_uint(v'query_id, 64);
+    build_0 = __tact_store_address(build_0, v'owner_address);
+    build_0 = build_0.store_int(v'include_address, 1);
+    return build_0;
+}
+
+cell $ProvideWalletAddress$_store_cell((int, slice, int) v) inline {
+    return $ProvideWalletAddress$_store(begin_cell(), v).end_cell();
+}
+
+((int, slice, int)) $ProvideWalletAddress$_constructor_query_id_owner_address_include_address(int query_id, slice owner_address, int include_address) inline {
+    return (query_id, owner_address, include_address);
+}
+
+;;
+;; Type: TakeWalletAddress
+;; Header: 0xd1735400
+;; TLB: take_wallet_address#d1735400 query_id:uint64 wallet_address:address owner_address:Maybe address = TakeWalletAddress
+;;
+
+(slice, ((int, slice, slice))) $TakeWalletAddress$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 3513996288);
+    var v'query_id = sc_0~load_uint(64);
+    var v'wallet_address = sc_0~__tact_load_address();
+    var v'owner_address = sc_0~__tact_load_address_opt();
+    return (sc_0, (v'query_id, v'wallet_address, v'owner_address));
+}
+
+;;
+;; Type: Bomj
+;; Header: 0x6de123ea
+;; TLB: bomj#6de123ea bomj_query_id:int32 bomj_amount:coins = Bomj
+;;
+
+(slice, ((int, int))) $Bomj$_load(slice sc_0) inline {
     throw_unless(129, sc_0~load_uint(32) == 1843471338);
-    var v'MyMemAddress = sc_0~__tact_load_address();
     var v'bomj_query_id = sc_0~load_int(32);
     var v'bomj_amount = sc_0~load_coins();
-    return (sc_0, (v'MyMemAddress, v'bomj_query_id, v'bomj_amount));
+    return (sc_0, (v'bomj_query_id, v'bomj_amount));
 }
 
 ;;
 ;; Type: Mem
 ;;
 
-builder $Mem$_store(builder build_0, (int) v) inline {
-    var (v'id) = v;
+builder $Mem$_store(builder build_0, (int, slice) v) inline {
+    var (v'id, v'MyMemAddress) = v;
     build_0 = build_0.store_uint(v'id, 32);
+    build_0 = __tact_store_address(build_0, v'MyMemAddress);
     return build_0;
 }
 
-(slice, ((int))) $Mem$_load(slice sc_0) inline {
+(slice, ((int, slice))) $Mem$_load(slice sc_0) inline {
     var v'id = sc_0~load_uint(32);
-    return (sc_0, (v'id));
+    var v'MyMemAddress = sc_0~__tact_load_address();
+    return (sc_0, (v'id, v'MyMemAddress));
 }
 
 (slice, ((int))) $Mem$init$_load(slice sc_0) inline {
@@ -116,7 +154,7 @@ builder $Mem$_store(builder build_0, (int) v) inline {
     return (sc_0, (v'id));
 }
 
-(int) $Mem$_contract_load() impure inline_ref {
+(int, slice) $Mem$_contract_load() impure inline_ref {
     slice $sc = get_data().begin_parse();
     __tact_context_sys = $sc~load_ref();
     int $loaded = $sc~load_int(1);
@@ -131,7 +169,7 @@ builder $Mem$_store(builder build_0, (int) v) inline {
     }
 }
 
-() $Mem$_contract_store((int) v) impure inline {
+() $Mem$_contract_store((int, slice) v) impure inline {
     builder b = begin_cell();
     b = b.store_ref(__tact_context_sys);
     b = b.store_int(true, 1);

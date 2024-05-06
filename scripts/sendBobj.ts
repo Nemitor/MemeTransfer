@@ -3,18 +3,18 @@ import { Mem } from '../wrappers/Mem';
 import { NetworkProvider } from '@ton/blueprint';
 
 export async function run(provider: NetworkProvider) {
-    const mem = provider.open(Mem.fromAddress(Address.parse("EQDquwFLiSkD1_QeDWKDFtNrTAuwsUqER8RQauqO36JHPII-")));
+    const mem = provider.open(Mem.fromAddress(Address.parse("EQBC11NOWq0YYCq2L2lPm1WR5DLWBHA_na0cFcGxl-Wu4sOU")));
 
     await mem.send(
         provider.sender(),
         {
-            value: toNano('1'),
+            value: toNano('0.5'),
         },
         {
             $$type: "Bomj",
-            MyMemAddress: Address.parse("kQBAO6z8DPA9xbm7BQuiKmG1WUgT43GgBBhPHDfVC39sOpY3"),
             bomj_query_id: 1233n,
             bomj_amount: 1000000000n
         }
     );
+    await provider.waitForDeploy(mem.address);
 }

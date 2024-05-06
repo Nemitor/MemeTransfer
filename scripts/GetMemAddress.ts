@@ -5,13 +5,11 @@ import { NetworkProvider, sleep } from '@ton/blueprint';
 export async function run(provider: NetworkProvider, args: string[]) {
     const ui = provider.ui();
 
-    const address = Address.parse("kQD3cCvOGEZa5cEOemP92VNBOUvV-lfnX4HorA9jnDY5VQYE");
+    const address = Address.parse("EQBC11NOWq0YYCq2L2lPm1WR5DLWBHA_na0cFcGxl-Wu4sOU");
 
     const mem = provider.open(Mem.fromAddress(address));
     let memAddres;
-    memAddres = await mem.getMemWalletAddress();
+    memAddres = await mem.getRetAddres();
 
     console.log("Addres: " +  memAddres.toString());
-    console.log("---------------------------------");
-    console.log("Taken: " +  await mem.getAddressTaken());
 }
