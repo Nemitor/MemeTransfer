@@ -11,7 +11,6 @@ PROGRAM{
   DECLPROC $DeployOk$_store
   DECLPROC $DeployOk$_store_cell
   DECLPROC $Bomj$_load
-  DECLPROC $Update$_load
   DECLPROC $Transfer$_store
   DECLPROC $Transfer$_store_cell
   DECLPROC $ProvideWalletAddress$_store
@@ -21,22 +20,21 @@ PROGRAM{
   DECLPROC $Mem$_load
   DECLPROC $StateInit$_not_null
   DECLPROC $Mem$init$_load
+  DECLPROC $global_send
+  DECLPROC $SendParameters$_constructor_to_body_value_mode
+  DECLPROC $ProvideWalletAddress$_constructor_query_id_owner_address_include_address
   DECLPROC $Mem$_contract_init
   DECLPROC $Mem$_contract_load
   DECLPROC $Mem$_contract_store
-  DECLPROC $global_send
   DECLPROC $Cell$_fun_asSlice
   DECLPROC $Mem$_fun_id
   DECLPROC $Mem$_fun_retAddres
   DECLPROC $SendParameters$_constructor_bounce_to_value_mode_body_code_data
   DECLPROC $Mem$_fun_forward
   DECLPROC $Mem$_fun_notify
-  DECLPROC $SendParameters$_constructor_to_body_value_mode
-  DECLPROC $ProvideWalletAddress$_constructor_query_id_owner_address_include_address
   DECLPROC $Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload
   DECLPROC $DeployOk$_constructor_queryId
   DECLPROC $Mem$_internal_binary_TakeWalletAddress
-  DECLPROC $Mem$_internal_binary_Update
   DECLPROC $Mem$_internal_binary_Bomj
   DECLPROC $Mem$_internal_binary_Deploy
   105872 DECLMETHOD %id
@@ -125,15 +123,6 @@ PROGRAM{
     32 LDI
     SWAP
   }>
-  $Update$_load PROCINLINE:<{
-    32 LDU
-    SWAP
-    1843471329 PUSHINT
-    EQUAL
-    129 THROWIFNOT
-    64 LDU
-    SWAP
-  }>
   $Transfer$_store PROCREF:<{
     260734629 PUSHINT
     s0 s8 XCHG2
@@ -217,44 +206,6 @@ PROGRAM{
     257 PUSHINT
     LDIX
     SWAP
-  }>
-  $Mem$_contract_init PROCREF:<{
-    B{b5ee9c72410101010024000043800000000000000000000000000000000000000000000000000000000000000000104aec829d} B>boc <s PUSHSLICE
-  }>
-  $Mem$_contract_load PROCREF:<{
-    c4 PUSH
-    CTOS
-    LDREF
-    SWAP
-    __tact_context_sys SETGLOB
-    1 LDI
-    SWAP
-    IFJMP:<{
-      $Mem$_load INLINECALLDICT
-      1 2 BLKDROP2
-    }>
-    MYADDR
-    11 PLDU
-    10 PUSHPOW2
-    EQUAL
-    137 THROWIFNOT
-    $Mem$init$_load INLINECALLDICT
-    SWAP
-    ENDS
-    $Mem$_contract_init INLINECALLDICT
-  }>
-  $Mem$_contract_store PROCINLINE:<{
-    NEWC
-    __tact_context_sys GETGLOB
-    SWAP
-    STREF
-    TRUE
-    SWAP
-    1 STI
-    -ROT
-    $Mem$_store INLINECALLDICT
-    ENDC
-    c4 POP
   }>
   $global_send PROCREF:<{
     NEWC
@@ -358,6 +309,63 @@ PROGRAM{
     SWAP
     SENDRAWMSG
   }>
+  $SendParameters$_constructor_to_body_value_mode PROCINLINE:<{
+    TRUE
+    s0 s4 XCHG
+    s0 s3 XCHG
+    PUSHNULL
+    PUSHNULL
+  }>
+  $ProvideWalletAddress$_constructor_query_id_owner_address_include_address PROCINLINE:<{
+  }>
+  $Mem$_contract_init PROCREF:<{
+    B{b5ee9c72410101010024000043800000000000000000000000000000000000000000000000000000000000000000104aec829d} B>boc <s PUSHSLICE
+    B{b5ee9c72410101010024000043800f32b82f5dbe4d3ab3dc5e242f76ffab84f123b8df03ac875dd9ba88548f96ff505762d492} B>boc <s PUSHSLICE
+    500 PUSHINT
+    MYADDR
+    TRUE
+    $ProvideWalletAddress$_constructor_query_id_owner_address_include_address INLINECALLDICT
+    $ProvideWalletAddress$_store_cell INLINECALLDICT
+    20000000 PUSHINT
+    2 PUSHINT
+    $SendParameters$_constructor_to_body_value_mode INLINECALLDICT
+    $global_send INLINECALLDICT
+  }>
+  $Mem$_contract_load PROCREF:<{
+    c4 PUSH
+    CTOS
+    LDREF
+    SWAP
+    __tact_context_sys SETGLOB
+    1 LDI
+    SWAP
+    IFJMP:<{
+      $Mem$_load INLINECALLDICT
+      1 2 BLKDROP2
+    }>
+    MYADDR
+    11 PLDU
+    10 PUSHPOW2
+    EQUAL
+    137 THROWIFNOT
+    $Mem$init$_load INLINECALLDICT
+    SWAP
+    ENDS
+    $Mem$_contract_init INLINECALLDICT
+  }>
+  $Mem$_contract_store PROCINLINE:<{
+    NEWC
+    __tact_context_sys GETGLOB
+    SWAP
+    STREF
+    TRUE
+    SWAP
+    1 STI
+    -ROT
+    $Mem$_store INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
   $Cell$_fun_asSlice PROCINLINE:<{
     CTOS
   }>
@@ -398,15 +406,6 @@ PROGRAM{
     PUSHNULL
     $Mem$_fun_forward INLINECALLDICT
   }>
-  $SendParameters$_constructor_to_body_value_mode PROCINLINE:<{
-    TRUE
-    s0 s4 XCHG
-    s0 s3 XCHG
-    PUSHNULL
-    PUSHNULL
-  }>
-  $ProvideWalletAddress$_constructor_query_id_owner_address_include_address PROCINLINE:<{
-  }>
   $Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload PROCINLINE:<{
     s2 s3 XCHG
   }>
@@ -416,23 +415,11 @@ PROGRAM{
     s1 s3 XCHG
     3 BLKDROP
   }>
-  $Mem$_internal_binary_Update PROCINLINE:<{
-    B{b5ee9c724101010100240000438005d29abb0bedacdbf137fb5a6d790e5d6a95ccb5ddcd4ea20d1c69ce2d05a595b0b5ea48d3} B>boc <s PUSHSLICE
-    MYADDR
-    s1 s2 XCHG
-    TRUE
-    $ProvideWalletAddress$_constructor_query_id_owner_address_include_address INLINECALLDICT
-    $ProvideWalletAddress$_store_cell INLINECALLDICT
-    200000000 PUSHINT
-    2 PUSHINT
-    $SendParameters$_constructor_to_body_value_mode INLINECALLDICT
-    $global_send INLINECALLDICT
-  }>
   $Mem$_internal_binary_Bomj PROCINLINE:<{
     200000000000 PUSHINT
     __tact_context_get_sender INLINECALLDICT
     PUSHNULL
-    10000000 PUSHINT
+    50000000 PUSHINT
     NEWC
     0 PUSHINT
     SWAP
@@ -471,7 +458,7 @@ PROGRAM{
     209474421377847335869795010607481022628 PUSHINT
   }>
   get_abi_ipfs PROC:<{
-    x{697066733a2f2f516d51787637713258364637676b4174354c596d3545336e706f7566634e3243585335624346554735594e514d64} PUSHSLICE
+    x{697066733a2f2f516d595966513472746e7971766d6f6a376576394b707643584c64755043444170366a70337631454d6961314232} PUSHSLICE
   }>
   lazy_deployment_completed PROC:<{
     c4 PUSH
@@ -502,16 +489,6 @@ PROGRAM{
       $TakeWalletAddress$_load INLINECALLDICT
       1 3 BLKDROP2
       $Mem$_internal_binary_TakeWalletAddress INLINECALLDICT
-      TRUE
-    }>
-    DUP
-    1843471329 PUSHINT
-    EQUAL
-    IFJMP:<{
-      DROP
-      $Update$_load INLINECALLDICT
-      NIP
-      $Mem$_internal_binary_Update INLINECALLDICT
       TRUE
     }>
     DUP

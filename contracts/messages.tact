@@ -3,10 +3,6 @@
 message(0x6de123ea) Bomj{
     bomj_query_id: Int as int32;
 }
-message(0x6de123e1) Update{
-    update_query_id: Int as uint64;
-}
-
 //comon
 
 message(0xf8a7ea5) Transfer {

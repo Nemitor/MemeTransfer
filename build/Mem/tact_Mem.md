@@ -1,9 +1,9 @@
 # TACT Compilation Report
 Contract: Mem
-BOC Size: 1129 bytes
+BOC Size: 1101 bytes
 
 # Types
-Total Types: 17
+Total Types: 16
 
 ## StateInit
 TLB: `_ code:^cell data:^cell = StateInit`
@@ -32,10 +32,6 @@ Signature: `FactoryDeploy{queryId:uint64,cashback:address}`
 ## Bomj
 TLB: `bomj#6de123ea bomj_query_id:int32 = Bomj`
 Signature: `Bomj{bomj_query_id:int32}`
-
-## Update
-TLB: `update#6de123e1 update_query_id:uint64 = Update`
-Signature: `Update{update_query_id:uint64}`
 
 ## Transfer
 TLB: `transfer#0f8a7ea5 query_id:uint64 amount:coins destination:address response_destination:address custom_payload:Maybe ^cell forward_ton_amount:coins forward_payload:remainder<slice> = Transfer`

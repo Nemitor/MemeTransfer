@@ -39,9 +39,6 @@ cell $DeployOk$_store_cell((int) v) inline;
 ;; $Bomj$_load
 (slice, ((int))) $Bomj$_load(slice sc_0) inline;
 
-;; $Update$_load
-(slice, ((int))) $Update$_load(slice sc_0) inline;
-
 ;; $Transfer$_store
 builder $Transfer$_store(builder build_0, (int, int, slice, slice, cell, int, slice) v) inline_ref;
 
@@ -69,6 +66,15 @@ builder $Mem$_store(builder build_0, (int, slice) v) inline;
 ;; $Mem$init$_load
 (slice, ((int))) $Mem$init$_load(slice sc_0) inline;
 
+;; $global_send
+() $global_send((int, slice, int, int, cell, cell, cell) $params) impure inline_ref;
+
+;; $SendParameters$_constructor_to_body_value_mode
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_body_value_mode(slice to, cell body, int value, int mode) inline;
+
+;; $ProvideWalletAddress$_constructor_query_id_owner_address_include_address
+((int, slice, int)) $ProvideWalletAddress$_constructor_query_id_owner_address_include_address(int query_id, slice owner_address, int include_address) inline;
+
 ;; $Mem$_contract_init
 (int, slice) $Mem$_contract_init(int $id) impure inline_ref;
 
@@ -77,9 +83,6 @@ builder $Mem$_store(builder build_0, (int, slice) v) inline;
 
 ;; $Mem$_contract_store
 () $Mem$_contract_store((int, slice) v) impure inline;
-
-;; $global_send
-() $global_send((int, slice, int, int, cell, cell, cell) $params) impure inline_ref;
 
 ;; $Cell$_fun_asSlice
 slice $Cell$_fun_asSlice(cell $self) impure inline;
@@ -98,12 +101,6 @@ slice $Cell$_fun_asSlice(cell $self) impure inline;
 
 ;; $Mem$_fun_notify
 ((int, slice), ()) $Mem$_fun_notify((int, slice) $self, cell $body) impure inline;
-
-;; $SendParameters$_constructor_to_body_value_mode
-((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_body_value_mode(slice to, cell body, int value, int mode) inline;
-
-;; $ProvideWalletAddress$_constructor_query_id_owner_address_include_address
-((int, slice, int)) $ProvideWalletAddress$_constructor_query_id_owner_address_include_address(int query_id, slice owner_address, int include_address) inline;
 
 ;; $Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload
 ((int, int, slice, slice, cell, int, slice)) $Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload(int query_id, int amount, slice destination, cell custom_payload, slice response_destination, int forward_ton_amount, slice forward_payload) inline;
