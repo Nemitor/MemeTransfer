@@ -1,9 +1,9 @@
 # TACT Compilation Report
 Contract: Mem
-BOC Size: 1145 bytes
+BOC Size: 1129 bytes
 
 # Types
-Total Types: 16
+Total Types: 17
 
 ## StateInit
 TLB: `_ code:^cell data:^cell = StateInit`
@@ -28,6 +28,14 @@ Signature: `DeployOk{queryId:uint64}`
 ## FactoryDeploy
 TLB: `factory_deploy#6d0ff13b queryId:uint64 cashback:address = FactoryDeploy`
 Signature: `FactoryDeploy{queryId:uint64,cashback:address}`
+
+## Bomj
+TLB: `bomj#6de123ea bomj_query_id:int32 = Bomj`
+Signature: `Bomj{bomj_query_id:int32}`
+
+## Update
+TLB: `update#6de123e1 update_query_id:uint64 = Update`
+Signature: `Update{update_query_id:uint64}`
 
 ## Transfer
 TLB: `transfer#0f8a7ea5 query_id:uint64 amount:coins destination:address response_destination:address custom_payload:Maybe ^cell forward_ton_amount:coins forward_payload:remainder<slice> = Transfer`
@@ -62,12 +70,8 @@ TLB: `provide_wallet_address#2c76b973 query_id:uint64 owner_address:address incl
 Signature: `ProvideWalletAddress{query_id:uint64,owner_address:address,include_address:bool}`
 
 ## TakeWalletAddress
-TLB: `take_wallet_address#d1735400 query_id:uint64 wallet_address:address owner_address:Maybe address = TakeWalletAddress`
-Signature: `TakeWalletAddress{query_id:uint64,wallet_address:address,owner_address:Maybe address}`
-
-## Bomj
-TLB: `bomj#6de123ea bomj_query_id:int32 bomj_amount:coins = Bomj`
-Signature: `Bomj{bomj_query_id:int32,bomj_amount:coins}`
+TLB: `take_wallet_address#d1735400 query_id:uint64 wallet_address:address owner_address:remainder<slice> = TakeWalletAddress`
+Signature: `TakeWalletAddress{query_id:uint64,wallet_address:address,owner_address:remainder<slice>}`
 
 # Get Methods
 Total Get Methods: 2

@@ -321,6 +321,90 @@ function dictValueParserFactoryDeploy(): DictionaryValue<FactoryDeploy> {
     }
 }
 
+export type Bomj = {
+    $$type: 'Bomj';
+    bomj_query_id: bigint;
+}
+
+export function storeBomj(src: Bomj) {
+    return (builder: Builder) => {
+        let b_0 = builder;
+        b_0.storeUint(1843471338, 32);
+        b_0.storeInt(src.bomj_query_id, 32);
+    };
+}
+
+export function loadBomj(slice: Slice) {
+    let sc_0 = slice;
+    if (sc_0.loadUint(32) !== 1843471338) { throw Error('Invalid prefix'); }
+    let _bomj_query_id = sc_0.loadIntBig(32);
+    return { $$type: 'Bomj' as const, bomj_query_id: _bomj_query_id };
+}
+
+function loadTupleBomj(source: TupleReader) {
+    let _bomj_query_id = source.readBigNumber();
+    return { $$type: 'Bomj' as const, bomj_query_id: _bomj_query_id };
+}
+
+function storeTupleBomj(source: Bomj) {
+    let builder = new TupleBuilder();
+    builder.writeNumber(source.bomj_query_id);
+    return builder.build();
+}
+
+function dictValueParserBomj(): DictionaryValue<Bomj> {
+    return {
+        serialize: (src, buidler) => {
+            buidler.storeRef(beginCell().store(storeBomj(src)).endCell());
+        },
+        parse: (src) => {
+            return loadBomj(src.loadRef().beginParse());
+        }
+    }
+}
+
+export type Update = {
+    $$type: 'Update';
+    update_query_id: bigint;
+}
+
+export function storeUpdate(src: Update) {
+    return (builder: Builder) => {
+        let b_0 = builder;
+        b_0.storeUint(1843471329, 32);
+        b_0.storeUint(src.update_query_id, 64);
+    };
+}
+
+export function loadUpdate(slice: Slice) {
+    let sc_0 = slice;
+    if (sc_0.loadUint(32) !== 1843471329) { throw Error('Invalid prefix'); }
+    let _update_query_id = sc_0.loadUintBig(64);
+    return { $$type: 'Update' as const, update_query_id: _update_query_id };
+}
+
+function loadTupleUpdate(source: TupleReader) {
+    let _update_query_id = source.readBigNumber();
+    return { $$type: 'Update' as const, update_query_id: _update_query_id };
+}
+
+function storeTupleUpdate(source: Update) {
+    let builder = new TupleBuilder();
+    builder.writeNumber(source.update_query_id);
+    return builder.build();
+}
+
+function dictValueParserUpdate(): DictionaryValue<Update> {
+    return {
+        serialize: (src, buidler) => {
+            buidler.storeRef(beginCell().store(storeUpdate(src)).endCell());
+        },
+        parse: (src) => {
+            return loadUpdate(src.loadRef().beginParse());
+        }
+    }
+}
+
 export type Transfer = {
     $$type: 'Transfer';
     query_id: bigint;
@@ -771,7 +855,7 @@ export type TakeWalletAddress = {
     $$type: 'TakeWalletAddress';
     query_id: bigint;
     wallet_address: Address;
-    owner_address: Address | null;
+    owner_address: Cell;
 }
 
 export function storeTakeWalletAddress(src: TakeWalletAddress) {
@@ -780,7 +864,7 @@ export function storeTakeWalletAddress(src: TakeWalletAddress) {
         b_0.storeUint(3513996288, 32);
         b_0.storeUint(src.query_id, 64);
         b_0.storeAddress(src.wallet_address);
-        b_0.storeAddress(src.owner_address);
+        b_0.storeBuilder(src.owner_address.asBuilder());
     };
 }
 
@@ -789,14 +873,14 @@ export function loadTakeWalletAddress(slice: Slice) {
     if (sc_0.loadUint(32) !== 3513996288) { throw Error('Invalid prefix'); }
     let _query_id = sc_0.loadUintBig(64);
     let _wallet_address = sc_0.loadAddress();
-    let _owner_address = sc_0.loadMaybeAddress();
+    let _owner_address = sc_0.asCell();
     return { $$type: 'TakeWalletAddress' as const, query_id: _query_id, wallet_address: _wallet_address, owner_address: _owner_address };
 }
 
 function loadTupleTakeWalletAddress(source: TupleReader) {
     let _query_id = source.readBigNumber();
     let _wallet_address = source.readAddress();
-    let _owner_address = source.readAddressOpt();
+    let _owner_address = source.readCell();
     return { $$type: 'TakeWalletAddress' as const, query_id: _query_id, wallet_address: _wallet_address, owner_address: _owner_address };
 }
 
@@ -804,7 +888,7 @@ function storeTupleTakeWalletAddress(source: TakeWalletAddress) {
     let builder = new TupleBuilder();
     builder.writeNumber(source.query_id);
     builder.writeAddress(source.wallet_address);
-    builder.writeAddress(source.owner_address);
+    builder.writeSlice(source.owner_address);
     return builder.build();
 }
 
@@ -815,53 +899,6 @@ function dictValueParserTakeWalletAddress(): DictionaryValue<TakeWalletAddress> 
         },
         parse: (src) => {
             return loadTakeWalletAddress(src.loadRef().beginParse());
-        }
-    }
-}
-
-export type Bomj = {
-    $$type: 'Bomj';
-    bomj_query_id: bigint;
-    bomj_amount: bigint;
-}
-
-export function storeBomj(src: Bomj) {
-    return (builder: Builder) => {
-        let b_0 = builder;
-        b_0.storeUint(1843471338, 32);
-        b_0.storeInt(src.bomj_query_id, 32);
-        b_0.storeCoins(src.bomj_amount);
-    };
-}
-
-export function loadBomj(slice: Slice) {
-    let sc_0 = slice;
-    if (sc_0.loadUint(32) !== 1843471338) { throw Error('Invalid prefix'); }
-    let _bomj_query_id = sc_0.loadIntBig(32);
-    let _bomj_amount = sc_0.loadCoins();
-    return { $$type: 'Bomj' as const, bomj_query_id: _bomj_query_id, bomj_amount: _bomj_amount };
-}
-
-function loadTupleBomj(source: TupleReader) {
-    let _bomj_query_id = source.readBigNumber();
-    let _bomj_amount = source.readBigNumber();
-    return { $$type: 'Bomj' as const, bomj_query_id: _bomj_query_id, bomj_amount: _bomj_amount };
-}
-
-function storeTupleBomj(source: Bomj) {
-    let builder = new TupleBuilder();
-    builder.writeNumber(source.bomj_query_id);
-    builder.writeNumber(source.bomj_amount);
-    return builder.build();
-}
-
-function dictValueParserBomj(): DictionaryValue<Bomj> {
-    return {
-        serialize: (src, buidler) => {
-            buidler.storeRef(beginCell().store(storeBomj(src)).endCell());
-        },
-        parse: (src) => {
-            return loadBomj(src.loadRef().beginParse());
         }
     }
 }
@@ -879,8 +916,8 @@ function initMem_init_args(src: Mem_init_args) {
 }
 
 async function Mem_init(id: bigint) {
-    const __code = Cell.fromBase64('te6ccgECGAEABG0AART/APSkE/S88sgLAQIBYgIDAtbQAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zxa2zzy4ILI+EMBzH8BygBZAssfASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IjPFsntVBIEAgFYCQoE2gGSMH/gcCHXScIflTAg1wsf3iCCENFzVAC64wIgghBt4SPquo8/MNMfAYIQbeEj6rry4IHSH/oAWWwS+EJtggiYloDIcAHLAMnQJlkQI8hVYNs8yVIQghAPf0kAcn8EA21t2zx/4IIQlGqYtroFBhYHAMYw0x8BghDRc1QAuvLggdM/+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiAH6QCHXCwHDAI4dASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IiSMW3iQzBsExNfA38AyIIQD4p+pVAIyx8Wyz9QBPoCWCDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IjPFgEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxYhbrOVfwHKAMyUcDLKAOIB+gIBzxYBWI6n0x8BghCUapi2uvLggdM/ATHIAYIQr/kPV1jLH8s/yfhCAXBt2zx/4DBwCAE6bW0ibrOZWyBu8tCAbyIBkTLiECRwAwSAQlAj2zwWAgEgCwwCAUgODwIRt7IbZ5tnjYQwEg0Albd6ME4LnYerpZXPY9CdhzrJUKNs0E4TusalpWyPlmRadeW/vixHME4ECrgDcAzscpnLB1XI5LZYcE4TsunLVmnZbmdB0s2yjN0UkAACIQIBIBARAHWybuNDVpcGZzOi8vUW1kdFlyanlNQUFLdTlDS3Q0VW40TGpielFIbTlxc1NZNHdRcXFWTFd2dkZQdIIAARrV92omhpAADAAhGui+2ebZ42EMASEwGM7UTQ1AH4Y9IAAY4k0x/6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIEmwS4Pgo1wsKgwm68uCJgQEB1wABAdHbPBQAAiABTI0IYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABNs8FQHWjQhgAXSmrsL7azb8Tf7Wm15Dl1qlcy13c1Oog0cac4tBaWVsggH5HPgof8hVIIIQLHa5c1AEyx8Syz8BINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiM8WygDJghAPf0kAcn8EA21t2zwWAcrIcQHKAVAHAcoAcAHKAlAFINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiM8WUAP6AnABymgjbrORf5MkbrPilzMzAXABygDjDSFus5x/AcoAASBu8tCAAcyVMXABygDiyQH7ABcAmH8BygDIcAHKAHABygAkbrOdfwHKAAQgbvLQgFAEzJY0A3ABygDiJG6znX8BygAEIG7y0IBQBMyWNANwAcoA4nABygACfwHKAALJWMw=');
-    const __system = Cell.fromBase64('te6cckECGgEABHcAAQHAAQEFoCxRAgEU/wD0pBP0vPLICwMCAWIPBAIBWAsFAgFIBwYAdbJu40NWlwZnM6Ly9RbWR0WXJqeU1BQUt1OUNLdDRVbjRMamJ6UUhtOXFzU1k0d1FxcVZMV3Z2RlB0ggAgEgCggCEa6L7Z5tnjYQwBUJAAIgABGtX3aiaGkAAMACASANDACVt3owTgudh6ullc9j0J2HOslQo2zQThO6xqWlbI+WZFp15b++LEcwTgQKuANwDOxymcsHVcjktlhwThOy6ctWadluZ0HSzbKM3RSQAhG3shtnm2eNhDAVDgACIQLW0AHQ0wMBcbCjAfpAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IhUUFMDbwT4YQL4Yts8Wts88uCCyPhDAcx/AcoAWQLLHwEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxbJ7VQVEATaAZIwf+BwIddJwh+VMCDXCx/eIIIQ0XNUALrjAiCCEG3hI+q6jz8w0x8BghBt4SPquvLggdIf+gBZbBL4Qm2CCJiWgMhwAcsAydAmWRAjyFVg2zzJUhCCEA9/SQByfwQDbW3bPH/gghCUapi2uhQTGBEBWI6n0x8BghCUapi2uvLggdM/ATHIAYIQr/kPV1jLH8s/yfhCAXBt2zx/4DBwEgE6bW0ibrOZWyBu8tCAbyIBkTLiECRwAwSAQlAj2zwYAMiCEA+KfqVQCMsfFss/UAT6Algg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxYBINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiM8WIW6zlX8BygDMlHAyygDiAfoCAc8WAMYw0x8BghDRc1QAuvLggdM/+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiAH6QCHXCwHDAI4dASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IiSMW3iQzBsExNfA38BjO1E0NQB+GPSAAGOJNMf+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiBJsEuD4KNcLCoMJuvLgiYEBAdcAAQHR2zwWAUyNCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATbPBcB1o0IYAF0pq7C+2s2/E3+1pteQ5dapXMtd3NTqINHGnOLQWllbIIB+Rz4KH/IVSCCECx2uXNQBMsfEss/ASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IjPFsoAyYIQD39JAHJ/BANtbds8GAHKyHEBygFQBwHKAHABygJQBSDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IjPFlAD+gJwAcpoI26zkX+TJG6z4pczMwFwAcoA4w0hbrOcfwHKAAEgbvLQgAHMlTFwAcoA4skB+wAZAJh/AcoAyHABygBwAcoAJG6znX8BygAEIG7y0IBQBMyWNANwAcoA4iRus51/AcoABCBu8tCAUATMljQDcAHKAOJwAcoAAn8BygACyVjMy5kC3A==');
+    const __code = Cell.fromBase64('te6ccgECGAEABF0AART/APSkE/S88sgLAQIBYgIDAtbQAdDTAwFxsKMB+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFRQUwNvBPhhAvhi2zxa2zzy4ILI+EMBzH8BygBZAssfASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IjPFsntVBUEAgFYDA0D6AGSMH/gcCHXScIflTAg1wsf3iCCENFzVAC6jjgw0x8BghDRc1QAuvLggdM/+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiFQSAmwTE18Df+AgghBt4SPhuuMCIIIQbeEj6rrjAoIQlGqYtrrjAjBwBQYHAfYw0x8BghBt4SPhuvLggdM/ATGNCGABdKauwvtrNvxN/tabXkOXWqVzLXdzU6iDRxpzi0FpZWz4KBJ/yFUgghAsdrlzUATLHxLLPwEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxbKAMmCEAvrwgByfwQDbW3bPH8KAoYw0x8BghBt4SPquvLggdIfATGCGC6Q7dAA+EJtggiYloDIcAHLAMnQJlkQI8hVYNs8yVIQghAF9eEAcn8EA21t2zx/CAoBTtMfAYIQlGqYtrry4IHTPwExyAGCEK/5D1dYyx/LP8n4QgFwbds8fwkAyIIQD4p+pVAIyx8Wyz9QBPoCWCDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IjPFgEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxYhbrOVfwHKAMyUcDLKAOIB+gIBzxYBOm1tIm6zmVsgbvLQgG8iAZEy4hAkcAMEgEJQI9s8CgHKyHEBygFQBwHKAHABygJQBSDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IjPFlAD+gJwAcpoI26zkX+TJG6z4pczMwFwAcoA4w0hbrOcfwHKAAEgbvLQgAHMlTFwAcoA4skB+wALAJh/AcoAyHABygBwAcoAJG6znX8BygAEIG7y0IBQBMyWNANwAcoA4iRus51/AcoABCBu8tCAUATMljQDcAHKAOJwAcoAAn8BygACyVjMAgEgDg8CAUgREgIRt7IbZ5tnjYQwFRAAlbd6ME4LnYerpZXPY9CdhzrJUKNs0E4TusalpWyPlmRadeW/vixHME4ECrgDcAzscpnLB1XI5LZYcE4TsunLVmnZbmdB0s2yjN0UkAACIQIBIBMUAHWybuNDVpcGZzOi8vUW1ReHY3cTJYNkY3Z2tBdDVMWW01RTNucG91ZmNOMkNYUzViQ0ZVRzVZTlFNZIIAARrV92omhpAADAAhGui+2ebZ42EMAVFgGM7UTQ1AH4Y9IAAY4k0x/6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIEmwS4Pgo1wsKgwm68uCJgQEB1wABAdHbPBcAAiAASI0IYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA==');
+    const __system = Cell.fromBase64('te6cckECGgEABGcAAQHAAQEFoCxRAgEU/wD0pBP0vPLICwMCAWIPBAIBWAsFAgFIBwYAdbJu40NWlwZnM6Ly9RbVF4djdxMlg2Rjdna0F0NUxZbTVFM25wb3VmY04yQ1hTNWJDRlVHNVlOUU1kggAgEgCggCEa6L7Z5tnjYQwBgJAAIgABGtX3aiaGkAAMACASANDACVt3owTgudh6ullc9j0J2HOslQo2zQThO6xqWlbI+WZFp15b++LEcwTgQKuANwDOxymcsHVcjktlhwThOy6ctWadluZ0HSzbKM3RSQAhG3shtnm2eNhDAYDgACIQLW0AHQ0wMBcbCjAfpAASDXSYEBC7ry4Igg1wsKIIEE/7ry0ImDCbry4IhUUFMDbwT4YQL4Yts8Wts88uCCyPhDAcx/AcoAWQLLHwEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxbJ7VQYEAPoAZIwf+BwIddJwh+VMCDXCx/eIIIQ0XNUALqOODDTHwGCENFzVAC68uCB0z/6QAEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIVBICbBMTXwN/4CCCEG3hI+G64wIgghBt4SPquuMCghCUapi2uuMCMHAVExEBTtMfAYIQlGqYtrry4IHTPwExyAGCEK/5D1dYyx/LP8n4QgFwbds8fxIBOm1tIm6zmVsgbvLQgG8iAZEy4hAkcAMEgEJQI9s8FgKGMNMfAYIQbeEj6rry4IHSHwExghgukO3QAPhCbYIImJaAyHABywDJ0CZZECPIVWDbPMlSEIIQBfXhAHJ/BANtbds8fxQWAMiCEA+KfqVQCMsfFss/UAT6Algg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxYBINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiM8WIW6zlX8BygDMlHAyygDiAfoCAc8WAfYw0x8BghBt4SPhuvLggdM/ATGNCGABdKauwvtrNvxN/tabXkOXWqVzLXdzU6iDRxpzi0FpZWz4KBJ/yFUgghAsdrlzUATLHxLLPwEg10mBAQu68uCIINcLCiCBBP+68tCJgwm68uCIzxbKAMmCEAvrwgByfwQDbW3bPH8WAcrIcQHKAVAHAcoAcAHKAlAFINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiM8WUAP6AnABymgjbrORf5MkbrPilzMzAXABygDjDSFus5x/AcoAASBu8tCAAcyVMXABygDiyQH7ABcAmH8BygDIcAHKAHABygAkbrOdfwHKAAQgbvLQgFAEzJY0A3ABygDiJG6znX8BygAEIG7y0IBQBMyWNANwAcoA4nABygACfwHKAALJWMwBjO1E0NQB+GPSAAGOJNMf+kABINdJgQELuvLgiCDXCwoggQT/uvLQiYMJuvLgiBJsEuD4KNcLCoMJuvLgiYEBAdcAAQHR2zwZAEiNCGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASSZtnF');
     let builder = beginCell();
     builder.storeRef(__system);
     builder.storeUint(0, 1);
@@ -923,6 +960,8 @@ const Mem_types: ABIType[] = [
     {"name":"Deploy","header":2490013878,"fields":[{"name":"queryId","type":{"kind":"simple","type":"uint","optional":false,"format":64}}]},
     {"name":"DeployOk","header":2952335191,"fields":[{"name":"queryId","type":{"kind":"simple","type":"uint","optional":false,"format":64}}]},
     {"name":"FactoryDeploy","header":1829761339,"fields":[{"name":"queryId","type":{"kind":"simple","type":"uint","optional":false,"format":64}},{"name":"cashback","type":{"kind":"simple","type":"address","optional":false}}]},
+    {"name":"Bomj","header":1843471338,"fields":[{"name":"bomj_query_id","type":{"kind":"simple","type":"int","optional":false,"format":32}}]},
+    {"name":"Update","header":1843471329,"fields":[{"name":"update_query_id","type":{"kind":"simple","type":"uint","optional":false,"format":64}}]},
     {"name":"Transfer","header":260734629,"fields":[{"name":"query_id","type":{"kind":"simple","type":"uint","optional":false,"format":64}},{"name":"amount","type":{"kind":"simple","type":"uint","optional":false,"format":"coins"}},{"name":"destination","type":{"kind":"simple","type":"address","optional":false}},{"name":"response_destination","type":{"kind":"simple","type":"address","optional":false}},{"name":"custom_payload","type":{"kind":"simple","type":"cell","optional":true}},{"name":"forward_ton_amount","type":{"kind":"simple","type":"uint","optional":false,"format":"coins"}},{"name":"forward_payload","type":{"kind":"simple","type":"slice","optional":false,"format":"remainder"}}]},
     {"name":"InternalTransfer","header":395134233,"fields":[{"name":"query_id","type":{"kind":"simple","type":"uint","optional":false,"format":64}},{"name":"amount","type":{"kind":"simple","type":"uint","optional":false,"format":"coins"}},{"name":"from","type":{"kind":"simple","type":"address","optional":false}},{"name":"response_destination","type":{"kind":"simple","type":"address","optional":false}},{"name":"forward_ton_amount","type":{"kind":"simple","type":"uint","optional":false,"format":"coins"}},{"name":"forward_payload","type":{"kind":"simple","type":"slice","optional":false,"format":"remainder"}}]},
     {"name":"TransferNotification","header":1935855772,"fields":[{"name":"query_id","type":{"kind":"simple","type":"uint","optional":false,"format":64}},{"name":"amount","type":{"kind":"simple","type":"uint","optional":false,"format":"coins"}},{"name":"sender","type":{"kind":"simple","type":"address","optional":false}},{"name":"forward_payload","type":{"kind":"simple","type":"slice","optional":false,"format":"remainder"}}]},
@@ -931,8 +970,7 @@ const Mem_types: ABIType[] = [
     {"name":"BurnNotification","header":2078119902,"fields":[{"name":"query_id","type":{"kind":"simple","type":"uint","optional":false,"format":64}},{"name":"amount","type":{"kind":"simple","type":"uint","optional":false,"format":"coins"}},{"name":"sender","type":{"kind":"simple","type":"address","optional":false}},{"name":"response_destination","type":{"kind":"simple","type":"address","optional":false}}]},
     {"name":"ChangeContent","header":274271986,"fields":[{"name":"jetton_content","type":{"kind":"simple","type":"cell","optional":false}}]},
     {"name":"ProvideWalletAddress","header":745978227,"fields":[{"name":"query_id","type":{"kind":"simple","type":"uint","optional":false,"format":64}},{"name":"owner_address","type":{"kind":"simple","type":"address","optional":false}},{"name":"include_address","type":{"kind":"simple","type":"bool","optional":false}}]},
-    {"name":"TakeWalletAddress","header":3513996288,"fields":[{"name":"query_id","type":{"kind":"simple","type":"uint","optional":false,"format":64}},{"name":"wallet_address","type":{"kind":"simple","type":"address","optional":false}},{"name":"owner_address","type":{"kind":"simple","type":"address","optional":true}}]},
-    {"name":"Bomj","header":1843471338,"fields":[{"name":"bomj_query_id","type":{"kind":"simple","type":"int","optional":false,"format":32}},{"name":"bomj_amount","type":{"kind":"simple","type":"uint","optional":false,"format":"coins"}}]},
+    {"name":"TakeWalletAddress","header":3513996288,"fields":[{"name":"query_id","type":{"kind":"simple","type":"uint","optional":false,"format":64}},{"name":"wallet_address","type":{"kind":"simple","type":"address","optional":false}},{"name":"owner_address","type":{"kind":"simple","type":"slice","optional":false,"format":"remainder"}}]},
 ]
 
 const Mem_getters: ABIGetter[] = [
@@ -942,6 +980,7 @@ const Mem_getters: ABIGetter[] = [
 
 const Mem_receivers: ABIReceiver[] = [
     {"receiver":"internal","message":{"kind":"typed","type":"TakeWalletAddress"}},
+    {"receiver":"internal","message":{"kind":"typed","type":"Update"}},
     {"receiver":"internal","message":{"kind":"typed","type":"Bomj"}},
     {"receiver":"internal","message":{"kind":"typed","type":"Deploy"}},
 ]
@@ -976,11 +1015,14 @@ export class Mem implements Contract {
         this.init = init;
     }
     
-    async send(provider: ContractProvider, via: Sender, args: { value: bigint, bounce?: boolean| null | undefined }, message: TakeWalletAddress | Bomj | Deploy) {
+    async send(provider: ContractProvider, via: Sender, args: { value: bigint, bounce?: boolean| null | undefined }, message: TakeWalletAddress | Update | Bomj | Deploy) {
         
         let body: Cell | null = null;
         if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'TakeWalletAddress') {
             body = beginCell().store(storeTakeWalletAddress(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'Update') {
+            body = beginCell().store(storeUpdate(message)).endCell();
         }
         if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'Bomj') {
             body = beginCell().store(storeBomj(message)).endCell();

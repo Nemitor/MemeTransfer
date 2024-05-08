@@ -8,7 +8,7 @@ export async function run(provider: NetworkProvider) {
     await mem.send(
         provider.sender(),
         {
-            value: toNano('0.05'),
+            value: toNano('0.1'),
         },
         {
             $$type: 'Deploy',
@@ -16,7 +16,7 @@ export async function run(provider: NetworkProvider) {
         }
     );
 
-    await provider.waitForDeploy(mem.address);
+    await provider.waitForDeploy(mem.address,20);
 
     console.log('ID', await mem.getId());
 }

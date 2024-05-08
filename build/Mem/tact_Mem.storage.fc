@@ -14,12 +14,12 @@
 ;; TLB: _ bounce:bool to:address value:int257 mode:int257 body:Maybe ^cell code:Maybe ^cell data:Maybe ^cell = SendParameters
 ;;
 
-((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_body_value_mode(slice to, cell body, int value, int mode) inline {
-    return (true, to, value, mode, body, null(), null());
-}
-
 ((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_bounce_to_value_mode_body_code_data(int bounce, slice to, int value, int mode, cell body, cell code, cell data) inline {
     return (bounce, to, value, mode, body, code, data);
+}
+
+((int, slice, int, int, cell, cell, cell)) $SendParameters$_constructor_to_body_value_mode(slice to, cell body, int value, int mode) inline {
+    return (true, to, value, mode, body, null(), null());
 }
 
 ;;
@@ -53,6 +53,30 @@ cell $DeployOk$_store_cell((int) v) inline {
 
 ((int)) $DeployOk$_constructor_queryId(int queryId) inline {
     return (queryId);
+}
+
+;;
+;; Type: Bomj
+;; Header: 0x6de123ea
+;; TLB: bomj#6de123ea bomj_query_id:int32 = Bomj
+;;
+
+(slice, ((int))) $Bomj$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 1843471338);
+    var v'bomj_query_id = sc_0~load_int(32);
+    return (sc_0, (v'bomj_query_id));
+}
+
+;;
+;; Type: Update
+;; Header: 0x6de123e1
+;; TLB: update#6de123e1 update_query_id:uint64 = Update
+;;
+
+(slice, ((int))) $Update$_load(slice sc_0) inline {
+    throw_unless(129, sc_0~load_uint(32) == 1843471329);
+    var v'update_query_id = sc_0~load_uint(64);
+    return (sc_0, (v'update_query_id));
 }
 
 ;;
@@ -108,28 +132,15 @@ cell $ProvideWalletAddress$_store_cell((int, slice, int) v) inline {
 ;;
 ;; Type: TakeWalletAddress
 ;; Header: 0xd1735400
-;; TLB: take_wallet_address#d1735400 query_id:uint64 wallet_address:address owner_address:Maybe address = TakeWalletAddress
+;; TLB: take_wallet_address#d1735400 query_id:uint64 wallet_address:address owner_address:remainder<slice> = TakeWalletAddress
 ;;
 
 (slice, ((int, slice, slice))) $TakeWalletAddress$_load(slice sc_0) inline {
     throw_unless(129, sc_0~load_uint(32) == 3513996288);
     var v'query_id = sc_0~load_uint(64);
     var v'wallet_address = sc_0~__tact_load_address();
-    var v'owner_address = sc_0~__tact_load_address_opt();
+    var v'owner_address = sc_0;
     return (sc_0, (v'query_id, v'wallet_address, v'owner_address));
-}
-
-;;
-;; Type: Bomj
-;; Header: 0x6de123ea
-;; TLB: bomj#6de123ea bomj_query_id:int32 bomj_amount:coins = Bomj
-;;
-
-(slice, ((int, int))) $Bomj$_load(slice sc_0) inline {
-    throw_unless(129, sc_0~load_uint(32) == 1843471338);
-    var v'bomj_query_id = sc_0~load_int(32);
-    var v'bomj_amount = sc_0~load_coins();
-    return (sc_0, (v'bomj_query_id, v'bomj_amount));
 }
 
 ;;

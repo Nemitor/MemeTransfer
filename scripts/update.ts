@@ -8,11 +8,11 @@ export async function run(provider: NetworkProvider) {
     await mem.send(
         provider.sender(),
         {
-            value: toNano('0.5'),
+            value: toNano('0.25'),
         },
         {
-            $$type: "Bomj",
-            bomj_query_id: 1233n
+            $$type: "Update",
+            update_query_id: 1233n
         }
     );
     await provider.waitForDeploy(mem.address);
