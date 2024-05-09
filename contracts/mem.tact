@@ -33,10 +33,10 @@ contract Mem with Deployable {
                 destination: sender(),
                 custom_payload: null,
                 response_destination: self.MyMemAddress,
-                forward_ton_amount: ton("0.02"),//05 - 0472
+                forward_ton_amount: ton("0.01"),//05 - 0472
                 forward_payload: beginCell().storeUint(0, 1).endCell().asSlice()
             }.toCell(),
-            value: ton("0.5"),//0.16
+            value: ton("0.05"),//0.16
             mode: SendIgnoreErrors
         });
     }

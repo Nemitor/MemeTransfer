@@ -1,6 +1,6 @@
 # TACT Compilation Report
 Contract: Mem
-BOC Size: 1101 bytes
+BOC Size: 1100 bytes
 
 # Types
 Total Types: 16

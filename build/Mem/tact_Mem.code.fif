@@ -419,7 +419,7 @@ PROGRAM{
     200000000000 PUSHINT
     __tact_context_get_sender INLINECALLDICT
     PUSHNULL
-    50000000 PUSHINT
+    10000000 PUSHINT
     NEWC
     0 PUSHINT
     SWAP
@@ -431,7 +431,7 @@ PROGRAM{
     $Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload INLINECALLDICT
     $Transfer$_store_cell INLINECALLDICT
     s1 s(-1) PUXC
-    100000000 PUSHINT
+    50000000 PUSHINT
     2 PUSHINT
     $SendParameters$_constructor_to_body_value_mode INLINECALLDICT
     $global_send INLINECALLDICT

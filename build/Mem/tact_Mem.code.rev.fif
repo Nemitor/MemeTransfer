@@ -11,7 +11,7 @@ PROGRAM{
   DECLPROC ?fun_ref_715d0af56496be80;
   DECLPROC ?fun_ref_9679be30e5cdc312;
   DECLPROC ?fun_ref_b93b9862cda1783c;
-  DECLPROC ?fun_ref_c6df720399c9bc7b;
+  DECLPROC ?fun_ref_c0d8a5cdaf362d42;
   DECLPROC ?fun_ref_e31d986f279fa0fb;
   recv_internal PROC:<{
     s0 s1 XCHG
@@ -46,7 +46,7 @@ PROGRAM{
     2 SETGLOBVAR
     ?fun_ref_9679be30e5cdc312 INLINECALLDICT
     SWAP2
-    ?fun_ref_c6df720399c9bc7b INLINECALLDICT
+    ?fun_ref_c0d8a5cdaf362d42 INLINECALLDICT
     130 THROWIFNOT
     NEWC
     3 GETGLOBVAR
@@ -394,7 +394,7 @@ PROGRAM{
     s0 s1 XCHG
     SENDRAWMSG
   }>
-  ?fun_ref_c6df720399c9bc7b PROCREF:<{
+  ?fun_ref_c0d8a5cdaf362d42 PROCREF:<{
     s0 s1 XCHG
     <{
       s0 POP
@@ -461,7 +461,7 @@ PROGRAM{
       200000000000 PUSHINT
       2 GETGLOBVAR
       NULL
-      50000000 PUSHINT
+      10000000 PUSHINT
       NEWC
       0 PUSHINT
       s0 s1 XCHG
@@ -476,7 +476,7 @@ PROGRAM{
       ?fun_ref_715d0af56496be80 INLINECALLDICT
       ENDC
       s1 s1 PUXC
-      100000000 PUSHINT
+      50000000 PUSHINT
       2 PUSHINT
       -1 PUSHINT
       s0 s4 XCHG

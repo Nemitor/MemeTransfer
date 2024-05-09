@@ -43,7 +43,7 @@
 (((int, slice)), ()) $Mem$_internal_binary_Bomj((int, slice) $self, (int) $msg) impure inline {
     var ($self'id, $self'MyMemAddress) = $self;
     var ($msg'bomj_query_id) = $msg;
-    $global_send($SendParameters$_constructor_to_body_value_mode($self'MyMemAddress, $Transfer$_store_cell($Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload($msg'bomj_query_id, 200000000000, __tact_context_get_sender(), null(), $self'MyMemAddress, 50000000, $Cell$_fun_asSlice(end_cell(store_uint(begin_cell(), 0, 1))))), 100000000, 2));
+    $global_send($SendParameters$_constructor_to_body_value_mode($self'MyMemAddress, $Transfer$_store_cell($Transfer$_constructor_query_id_amount_destination_custom_payload_response_destination_forward_ton_amount_forward_payload($msg'bomj_query_id, 200000000000, __tact_context_get_sender(), null(), $self'MyMemAddress, 10000000, $Cell$_fun_asSlice(end_cell(store_uint(begin_cell(), 0, 1))))), 50000000, 2));
     return (($self'id, $self'MyMemAddress), ());
 }
 
